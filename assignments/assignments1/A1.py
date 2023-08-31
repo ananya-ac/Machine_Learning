@@ -7,11 +7,11 @@ if __name__ == "__main__":
     data_train = pd.read_csv("DSCI-633/assignments/data/Iris_train.csv")
     
     # Explore the loaded pandas dataframe
-    # Print out the 20th training data point
+    # Print out the 12th training data point
     print(data_train.loc[12])
-    # Print out the column "Species"
+    # Print out the column "SepalWidthCm"
     print(data_train["SepalWidthCm"])
-    # Print out the data points with "Species" == "Iris-setosa"
+    # Print out the data points with "SepalWidthCm" < 2.5
     print(data_train[data_train["SepalWidthCm"]<2.5])
 
     # Separate independent variables and dependent variables
