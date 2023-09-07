@@ -2,7 +2,7 @@ import my_preprocess
 import pandas as pd
 from collections import Counter
 from sklearn.tree import DecisionTreeClassifier
-
+from pdb import set_trace
 ##################################################
 
 if __name__ == "__main__":
@@ -17,6 +17,7 @@ if __name__ == "__main__":
     X_norm = normalizer.fit_transform(X)
     pca = my_preprocess.my_pca(n_components=2)
     X_pca = pca.fit_transform(X_norm)
+    
     sample = my_preprocess.stratified_sampling(y, ratio=0.5, replace=False)
     X_sample = X_pca[sample]
     y_sample = y[sample].to_numpy()
