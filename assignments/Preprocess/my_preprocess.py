@@ -1,6 +1,6 @@
 import numpy as np
 from scipy.linalg import svd
-import pdb
+
 
 class my_normalizer:
     def __init__(self, norm="Min-Max", axis = 1):
