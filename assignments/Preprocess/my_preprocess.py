@@ -1,7 +1,6 @@
 import numpy as np
 from scipy.linalg import svd
 
-
 class my_normalizer:
     def __init__(self, norm="Min-Max", axis = 1):
         #     norm = {"L1", "L2", "Min-Max", "Standard_Score"}
@@ -73,7 +72,7 @@ class my_pca:
         #     X: input matrix
         #  Calculates:
         #     self.principal_components: the top n_components principal_components
-        U, s, Vh = svd(X,full_matrices=False)
+        U, s, Vh = svd(X)
         self.principle_components=Vh.transpose()
         # Write your own code below
 
