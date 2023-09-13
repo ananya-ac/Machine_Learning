@@ -1,6 +1,7 @@
 import numpy as np
 from scipy.linalg import svd
 
+
 class my_normalizer:
     def __init__(self, norm="Min-Max", axis = 1):
         #     norm = {"L1", "L2", "Min-Max", "Standard_Score"}
@@ -101,6 +102,7 @@ def stratified_sampling(y, ratio, replace = True):
 
     if ratio<=0 or ratio>=1:
         raise Exception("ratio must be 0 < ratio < 1.")
+    
     y_array = np.asarray(y)
     num_samples=np.ceil(len(y)*ratio)
     num_classes=len(np.unique(y_array))
@@ -110,7 +112,7 @@ def stratified_sampling(y, ratio, replace = True):
     
     for v in samples_per_class.values():
         sample.extend(np.random.choice(a=v.reshape(len(v)),size=int(np.ceil(num_samples/num_classes)),replace=replace))
-    
+        
     
 
     
