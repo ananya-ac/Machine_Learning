@@ -1,7 +1,6 @@
 import numpy as np
 from scipy.linalg import svd
-
-
+# NOT USED my_preprocess_hint.py
 class my_normalizer:
     def __init__(self, norm="Min-Max", axis = 1):
         #     norm = {"L1", "L2", "Min-Max", "Standard_Score"}
@@ -10,33 +9,37 @@ class my_normalizer:
         self.norm = norm
         self.axis = axis
         self.scalers={}
+        if self.axis==1:
+            self.ax=0
+        else:
+            self.ax=1
+        if norm not in ["L1", "L2", "Min-Max", "Standard_Score"]:
+            raise Exception("Invalid norm")
 
     def fit(self, X):
         #     X: input matrix
         #     Calculate offsets and scalers which are used in transform()
         X_array  = np.asarray(X)
-        if self.axis==1:
-            ax=0
-        else:
-            ax=1
+        
         self.scalers.clear()   
         if self.norm=="Min-Max":
-            x_max=X_array.max(axis=ax)
-            x_min=X_array.min(axis=ax)
+            x_max=X_array.max(axis=self.ax)
+            x_min=X_array.min(axis=self.ax)
             self.scalers['x_max']=x_max
             self.scalers['x_min']=x_min
+
         if self.norm=="Standard_Score":
-            mu=X_array.mean(axis=ax)
-            sigma=X_array.std(axis=ax)
+            mu=X_array.mean(axis=self.ax)
+            sigma=X_array.std(axis=self.ax)
             self.scalers['mu']=mu
             self.scalers['sigma']=sigma
             
         if self.norm=="L1":
-            l1=np.linalg.norm(X_array,ord=1,axis=ax)
+            l1=np.linalg.norm(X_array,ord=1,axis=self.ax)
             self.scalers['l1']=l1
 
         if self.norm=="L2":
-            l2=np.linalg.norm(X_array,ord=2,axis=ax)
+            l2=np.linalg.norm(X_array,ord=2,axis=self.ax)
             self.scalers['l2']=l2
         
         # Write your own code below
@@ -44,18 +47,27 @@ class my_normalizer:
     def transform(self, X, scalers=None):
         # Transform X into X_norm
         X_norm = np.asarray(X)
-            
+        
+        if self.ax==1:
+            X_norm=X_norm.transpose()    
+        
         if self.norm=="Min-Max":
-            X_norm=(X_norm-self.scalers['x_min'])/(self.scalers['x_max']-self.scalers['x_min'])
+            X_norm=(X_norm-self.scalers['x_min'][:X_norm.shape[1]])/(self.scalers['x_max'][:X_norm.shape[1]]-self.scalers['x_min'][:X_norm.shape[1]])
 
         if self.norm=="Standard_Score":
-            X_norm=(X_norm-self.scalers['mu'])/self.scalers['sigma']
+            X_norm=(X_norm-self.scalers['mu'][:X_norm.shape[1]])/self.scalers['sigma'][:X_norm.shape[1]]
+        
         if self.norm=="L1":
-            X_norm=X_norm/self.scalers['l1']
+            X_norm=X_norm/self.scalers['l1'][:X_norm.shape[1]]
+        
         if self.norm=="L2":
-            X_norm=X_norm/self.scalers['l2']
-            
-        # Write your own code below
+            # if X.shape==(15,4):
+            #     pdb.set_trace()
+            X_norm=X_norm/self.scalers['l2'][:X_norm.shape[1]]
+        
+        if self.ax==1:
+            X_norm=X_norm.transpose()
+        
         return X_norm
 
     def fit_transform(self, X):
@@ -115,5 +127,4 @@ def stratified_sampling(y, ratio, replace = True):
         
     
 
-    
     return np.random.permutation(np.array(sample)).astype(int)
