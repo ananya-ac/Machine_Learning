@@ -49,21 +49,22 @@ class my_normalizer:
         X_norm = np.asarray(X)
         
         if self.ax==1:
-            X_norm=X_norm.transpose()    
+            X_norm=X_norm.transpose()
+            self.fit(X)    
         
         if self.norm=="Min-Max":
-            X_norm=(X_norm-self.scalers['x_min'][:X_norm.shape[1]])/(self.scalers['x_max'][:X_norm.shape[1]]-self.scalers['x_min'][:X_norm.shape[1]])
+            X_norm=(X_norm-self.scalers['x_min'])/(self.scalers['x_max']-self.scalers['x_min'])
 
         if self.norm=="Standard_Score":
-            X_norm=(X_norm-self.scalers['mu'][:X_norm.shape[1]])/self.scalers['sigma'][:X_norm.shape[1]]
+            X_norm=(X_norm-self.scalers['mu'])/self.scalers['sigma']
         
         if self.norm=="L1":
-            X_norm=X_norm/self.scalers['l1'][:X_norm.shape[1]]
+            X_norm=X_norm/self.scalers['l1']
         
         if self.norm=="L2":
             # if X.shape==(15,4):
             #     pdb.set_trace()
-            X_norm=X_norm/self.scalers['l2'][:X_norm.shape[1]]
+            X_norm=X_norm/self.scalers['l2']
         
         if self.ax==1:
             X_norm=X_norm.transpose()
