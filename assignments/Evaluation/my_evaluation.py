@@ -189,30 +189,7 @@ class my_evaluation:
 
                 return auc_target
             
-            # thresholds=self.pred_proba[target].sort_values(ascending=False).unique()
-            # auc_target=0
-            # TPR=0
-            # FPR=0
-            # for thresh in thresholds:
-            #     # if target=='Iris-virginica':
-            #     #     pdb.set_trace()
-            #     new_preds=np.zeros_like(self.predictions)
-
-            #     new_preds[self.pred_proba[target]>=thresh]=target
-            #     self.conf_populate(target,new_preds)
-            #     print(target)
-            #     print(self.confusion_matrix[target])
-            #     TPR=self.confusion_matrix[target]["TP"]/(self.confusion_matrix[target]["TP"]+self.confusion_matrix[target]["FN"])
-            #     temp=FPR
-            #     FPR=self.confusion_matrix[target]["FP"]/(self.confusion_matrix[target]["FP"]+self.confusion_matrix[target]["TN"])
-            #     print("Threshold=",thresh)
-            #     offset=(TPR)*(FPR-temp)
-            #     print("TPR * (FPR-temp)="+str(TPR)+" X ("+str(FPR)+" - "+str(temp)+") =",offset)
-            #     print()
-            #     print()
-                
-            #     auc_target+=offset
-               
+            
             
                 
 
