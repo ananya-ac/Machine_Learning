@@ -1,12 +1,12 @@
 import pandas as pd
 import numpy as np
 from collections import Counter
-import pdb
 from Node import Node
 
 class my_DT:
 
     def __init__(self, criterion="entropy", max_depth=8, min_impurity_decrease=0, min_samples_split=2):
+        #DID NOT USE HINT FILE
         # criterion = {"gini", "entropy"},
         # Stop training if depth = max_depth. Depth of a binary tree: the max number of edges from the root node to a leaf node
         # Only split node if impurity decrease >= min_impurity_decrease after the split

@@ -46,51 +46,6 @@ class Node(object):
             return False
            
            
-           
-           # pdb.set_trace()
-            for feature in featureThreshList:
-                
-                    
-                    category_counts={(feature, thresh): [pd.Series(Counter(self.y[self.X[feature]>=thresh])),
-                                                         pd.Series(Counter(self.y[self.X[feature]<thresh]))] 
-                                                    for thresh in split_thresholds[feature] }
-                    
-                    scores=pd.Series({(f,t): giniIndex(category_counts[(f,t)]) for f,t in category_counts})
-                    
-                    
-                    best_score_feat=min(scores)
-                    
-                    if best_score_feat<=min_impurity_decrease:
-                        continue
-                    else:
-                        best_scores[scores.idxmin()]=best_score_feat
-                        
-            
-            if best_scores:
-                self.best_scores=best_scores
-                best_scores=pd.Series(best_scores)
-                P_value=self.P-min(best_scores)
-                if P_value<0:
-                    return False
-                self.split_features=best_scores.idxmin()
-                feat,thresh=self.split_features
-                #self.counts_more,self.counts_less=category_counts[scores.idxmin()]
-                leftX=self.X[self.X[feat]<thresh].copy()
-                rightX=self.X[self.X[feat]>=thresh].copy()
-                
-                    
-                if not leftX.empty:
-                    self.leftChild=Node(X=leftX,y=self.y[self.X[feat]<thresh].copy(),parent=self,depth=self.depth+1, P=P_value)
-                if not rightX.empty:
-                    self.rightChild=Node(X=rightX,y=self.y[self.X[feat]>=thresh].copy(),parent=self,depth=self.depth+1, P=P_value)
-                # if self.depth==1:
-                #     pdb.set_trace()
-                return True
-            else:
-                return False            
-        
-        
-            
     def getPred(self):
 
         return max(Counter(self.y))
