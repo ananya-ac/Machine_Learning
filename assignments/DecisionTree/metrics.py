@@ -1,23 +1,44 @@
-import pdb
-import numpy as np
 import pandas as pd
-
-def giniIndex(counts):
+from collections import Counter
+import numpy as np
    
-    l,r=counts
-    if not l.empty:
-        gl=1-sum((l/sum(l))**2)
-        dl=sum(l)/(sum(l)+sum(r))
-        gl*=dl
-    else: gl=0
-    if not r.empty:
-        gr=1-sum((r/sum(r))**2)
-        dr=sum(r)/(sum(l)+sum(r))
-        gr*=dr
-    else: gr=0
-    
-    return gl+gr
 
-def entropy(counts):
+def entropy(y):
+    y=pd.Series(Counter(y))
+    y/=y.sum()
+    ylog=np.emath.logn(3,y)
+    y*=ylog
+    
+    return -1*y.sum()
+
+
+
     return
 
+def metricImprovement(node, featureThresh, metric):
+    
+    parent_metric=metric(node.y)
+    feat,thresh=featureThresh
+    left=node.y[node.X[feat]<thresh]
+    right=node.y[node.X[feat]>=thresh]
+    if left.empty:
+        left_metric=0
+    else: 
+        left_metric=metric(left)
+    if right.empty:
+        right_metric=0
+    else: 
+        right_metric=metric(right)
+    left_metric*=(len(left)/len(node.y))
+    right_metric*=(len(right)/len(node.y))
+    return parent_metric-(left_metric+right_metric)
+
+
+def gini(y):
+    y=pd.Series(Counter(y))
+    y/=y.sum()
+    return 1 - (y**2).sum()
+
+
+
+    

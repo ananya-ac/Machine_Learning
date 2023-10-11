@@ -6,7 +6,7 @@ from Node import Node
 
 class my_DT:
 
-    def __init__(self, criterion="gini", max_depth=8, min_impurity_decrease=0, min_samples_split=2):
+    def __init__(self, criterion="entropy", max_depth=8, min_impurity_decrease=0, min_samples_split=2):
         # criterion = {"gini", "entropy"},
         # Stop training if depth = max_depth. Depth of a binary tree: the max number of edges from the root node to a leaf node
         # Only split node if impurity decrease >= min_impurity_decrease after the split
@@ -33,17 +33,15 @@ class my_DT:
         self.root=Node(X.copy(),y.copy(),depth=0,is_root=True,P=initial_P)
         self.build_tree(self.root)
         
-    
     def build_tree(self, node):
         
-        if node.P<=0:
-            return node
         
-        elif node.depth>self.max_depth-1 or node.is_leaf:
+        
+        if node.depth>self.max_depth-1 :
             return
         
         else:
-            flag=node.trySplit(features=self.features, split_thresholds=self.thresholds, min_samples_split=self.min_samples_split)
+            flag=node.trySplit(features=self.features, criterion=self.criterion,split_thresholds=self.thresholds, min_samples_split=self.min_samples_split)
             
             if flag:
                 if node.leftChild is not None:
