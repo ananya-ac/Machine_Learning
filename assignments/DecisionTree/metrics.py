@@ -12,9 +12,6 @@ def entropy(y):
     return -1*y.sum()
 
 
-
-    return
-
 def metricImprovement(node, featureThresh, metric):
     
     parent_metric=metric(node.y)
