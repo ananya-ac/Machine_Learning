@@ -5,6 +5,7 @@ from copy import deepcopy
 class my_AdaBoost:
 
     def __init__(self, base_estimator = None, n_estimators = 50):
+        #DID NOT USE HINT FILE
         # Multi-class Adaboost algorithm (SAMME)
         # alpha = ln((1-error)/error)+ln(K-1), K is the number of classes.
         # base_estimator: the base classifier class, e.g. my_DT
@@ -24,7 +25,7 @@ class my_AdaBoost:
         error_limit=1-(1/k)
         weights=np.ones(len(X)) * 1/len(X)
         i=0
-        #for i,estimator in enumerate(self.estimators):
+       
         while True:
             if i==self.n_estimators:
                 break
