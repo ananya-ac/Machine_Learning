@@ -59,18 +59,18 @@ class my_KMeans:
                 
                 for centroid in centroids:
                     
-                    SE=self.euclidean_distance(X,centroid)
+                    SE=self.euclidean_distance(X,centroid)**2
                     dists.append(SE)
                     
                 dists_arr=np.array(dists).T
                 X['cluster']=np.argmin(dists_arr,axis=1)
                 inertia=0
-                
+                test=[]
                 try:
                     for k in range(self.n_clusters):
-                        inertia+=(self.euclidean_distance(X[X['cluster']==k].drop('cluster',axis='columns'),centroids[k])).sum()
+                        inertia+=(self.euclidean_distance(X[X['cluster']==k].drop('cluster',axis='columns'),centroids[k])**2).sum()
                 except:
-                        inertia+=0                
+                        inertia+=0
                 if i>0:
                     if prev_inertia-inertia<self.tol:
                         X.drop('cluster', inplace=True, axis='columns')
