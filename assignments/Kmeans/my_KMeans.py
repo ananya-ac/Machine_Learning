@@ -5,6 +5,7 @@ import pdb
 class my_KMeans:
 
     def __init__(self, n_clusters=8, init = "k-means++", n_init = 10, max_iter=300, tol=1e-4):
+        #DID NOT USE HINT
         # init = {"k-means++", "random"}
         # use euclidean distance for inertia calculation.
         # stop when either # iteration is greater than max_iter or the delta of self.inertia_ is smaller than tol.
@@ -44,7 +45,7 @@ class my_KMeans:
             
 
             cluster_centers[inertia]=centroids
-                
+        
         best_inertia=min(cluster_centers.keys())
         self.inertia_=best_inertia
         self.cluster_centers_=[row for row in cluster_centers[best_inertia]]
@@ -58,26 +59,28 @@ class my_KMeans:
         for i in range(self.max_iter):
                 dists=[]
                 
-                for j in range(len(centroids)):
+                for centroid in centroids:
                     
-                    SE=self.euclidean_distance(X,centroids[j])
+                    SE=self.euclidean_distance(X,centroid)
                     dists.append(SE)
                     
-                
                 dists_arr=np.array(dists).T
                 X['cluster']=np.argmin(dists_arr,axis=1)
                 clusters_group=X.groupby('cluster')
                 inertia=0
                 
-                for k in range(self.n_clusters):
-                        inertia+=sum(self.euclidean_distance(clusters_group.get_group(k).drop('cluster',axis='columns'),centroids[k]))
-                                
+                try:
+                    for k in range(self.n_clusters):
+                        inertia+=(self.euclidean_distance(X[X['cluster']==k].drop('cluster',axis='columns'),centroids[k])).sum()
+                except:
+                        inertia+=0                
                 if i>0:
                     if prev_inertia-inertia<self.tol:
                         X.drop('cluster', inplace=True, axis='columns')
                         break
                 
-                prev_inertia=inertia   
+                prev_inertia=inertia
+                centroids=np.array([X[X['cluster']==k].drop('cluster',axis='columns').mean() for k in range(len(centroids))])
                 centroids=clusters_group.mean().values
                 X.drop('cluster', inplace=True, axis='columns')
                 
