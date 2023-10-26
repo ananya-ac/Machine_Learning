@@ -42,8 +42,6 @@ class my_KMeans:
                 initial_centroids=np.vstack([first_centroid,other_centroids])
 
             centroids,inertia=self.get_clusters_(initial_centroids,X)
-            
-
             cluster_centers[inertia]=centroids
         
         best_inertia=min(cluster_centers.keys())
@@ -66,7 +64,6 @@ class my_KMeans:
                     
                 dists_arr=np.array(dists).T
                 X['cluster']=np.argmin(dists_arr,axis=1)
-                clusters_group=X.groupby('cluster')
                 inertia=0
                 
                 try:
@@ -81,11 +78,7 @@ class my_KMeans:
                 
                 prev_inertia=inertia
                 centroids=np.array([X[X['cluster']==k].drop('cluster',axis='columns').mean() for k in range(len(centroids))])
-                centroids=clusters_group.mean().values
                 X.drop('cluster', inplace=True, axis='columns')
-                
-                
-        
                 
         return (centroids,inertia)
 
@@ -97,8 +90,6 @@ class my_KMeans:
         # write your code below
         dists=self.transform(X)
         predictions = [np.argmin(dist) for dist in dists]
-
-
         return predictions
 
     def transform(self, X):
