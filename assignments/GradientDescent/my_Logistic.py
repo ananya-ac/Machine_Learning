@@ -4,6 +4,7 @@ import pdb
 class my_Logistic:
 
     def __init__(self, learning_rate = 0.1, batch_size = 10, max_iter = 100, shuffle = False):
+        #DID NOT USE HINT FILE
         # Logistic regression: f(x) = 1 / (1+exp(-(w0+w*x))})
         # Loss function is sum (f(x)-y)**2
         # learning_rate: Learning rate for each weight update.
