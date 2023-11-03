@@ -95,9 +95,11 @@ class my_Logistic:
 def grad(wts, Xb, yb):
 
     m=len(yb)
-    return (1/m) * Xb.T @ (sigmoid(Xb@wts)-yb)
+    
+    return 2 * (1/m) * Xb.T @ ((sigmoid(Xb@wts)-yb) * sigmoid(Xb@wts) * (1-sigmoid(Xb@wts)))
 
 def sigmoid(x):
         return 1/(1+np.exp(-x))
+
 
 
