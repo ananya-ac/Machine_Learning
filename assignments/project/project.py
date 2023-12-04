@@ -3,15 +3,12 @@ import time
 import numpy as np 
 import gensim.downloader
 from gensim.models import Word2Vec
-from gensim.parsing.preprocessing import remove_stopwords, stem_text, strip_short, preprocess_string
+from gensim.parsing.preprocessing import preprocess_string, stem_text
 from sklearn.pipeline import make_pipeline
 from sklearn.compose import make_column_transformer
-from sklearn.linear_model import SGDClassifier, LogisticRegression
-from sklearn.ensemble import RandomForestClassifier,GradientBoostingClassifier, HistGradientBoostingClassifier
-import pdb
+from sklearn.linear_model import SGDClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
-from sklearn.naive_bayes import ComplementNB
-from sklearn.preprocessing import OneHotEncoder, StandardScaler, MinMaxScaler
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
 
 from scipy.stats import uniform
@@ -42,9 +39,9 @@ class my_model():
                                      (vect2, 'requirements'),
                                      (vect3, 'title'))
         
-        ct=make_column_transformer((ohe,['telecommuting','has_company_logo','has_questions']),
-                                    (vect1, 'description'),
-                                    (vect2, 'requirements'))
+        # ct=make_column_transformer((ohe,['telecommuting','has_company_logo','has_questions']),
+        #                             (vect1, 'description'),
+        #                             (vect2, 'requirements'))
     
         
         
@@ -85,7 +82,7 @@ def preprocessing(X):
     X_copy=X.copy(deep=True)
     X_copy.drop('location', inplace=True, axis='columns')
     X_copy['description']=X_copy['description'].apply(clean)
-    X_copy['title']=X_copy['title'].apply(stem_text)
+    X_copy['title']=X_copy['title'].apply(clean)
     X_copy['requirements']=X_copy['requirements'].apply(clean)
     
     return X_copy 
