@@ -1,1 +1,1 @@
-# DSCI-633
+# Scikit Learn inspired library for Data Science
